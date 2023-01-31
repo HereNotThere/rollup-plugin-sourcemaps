@@ -27,7 +27,8 @@
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
     "prepublishOnly": "npm run build",
-    "preversion": "npm run test"
+    "preversion": "npm run test",
+    "postinstall": "rollup --config"
   },
   "keywords": [
     "rollup",
