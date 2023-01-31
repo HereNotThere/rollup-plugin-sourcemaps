@@ -16,10 +16,10 @@
   "sideEffects": false,
   "repository": {
     "type": "git",
-    "url": "https://github.com/maxdavidson/rollup-plugin-sourcemaps"
+    "url": "https://github.com/HereNotThere/rollup-plugin-sourcemaps"
   },
   "engines": {
-    "node": ">=10.0.0"
+    "node": ">=18.0.0"
   },
   "scripts": {
     "build": "rimraf dist && rollup --config",
