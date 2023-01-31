@@ -28,7 +28,7 @@
     "typecheck": "tsc --noEmit",
     "prepublishOnly": "npm run build",
     "preversion": "npm run test",
-    "postinstall": "yarn run rollup --config"
+    "prepack": "rollup --config"
   },
   "keywords": [
     "rollup",
