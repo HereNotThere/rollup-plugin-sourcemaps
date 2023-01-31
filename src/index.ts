@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import fs from 'fs';
 import { promisify } from 'util';
 import { Plugin, ExistingRawSourceMap } from 'rollup';
@@ -27,7 +28,9 @@ export default function sourcemaps({
   return {
     name: 'sourcemaps',
 
-    async load(id: string) {
+    async load(rawId: string) {
+      const id = rawId.replace(/\?.+$/, '');
+
       if (!filter(id)) {
         return null;
       }
@@ -35,8 +38,9 @@ export default function sourcemaps({
       let code: string;
       try {
         code = (await promisifiedReadFile(id)).toString();
-      } catch {
-        this.warn('Failed reading file');
+      } catch (ex: any) {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
+        this.warn(`Failed reading file ${JSON.stringify(ex)}`);
         return null;
       }
 
@@ -46,13 +50,14 @@ export default function sourcemaps({
 
         // The code contained no sourceMappingURL
         if (result === null) {
-          return code;
+          return { code };
         }
 
         map = result.map;
-      } catch {
-        this.warn('Failed resolving source map');
-        return code;
+      } catch (ex: any) {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
+        this.warn(`Failed resolving source map ${JSON.stringify(ex)}`);
+        return { code };
       }
 
       // Resolve sources if they're not included
@@ -62,8 +67,9 @@ export default function sourcemaps({
           if (sourcesContent.every(item => typeof item === 'string')) {
             map.sourcesContent = sourcesContent as string[];
           }
-        } catch {
-          this.warn('Failed resolving sources for source map');
+        } catch (ex: any) {
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
+          this.warn(`Failed resolving sources for source map ${JSON.stringify(ex)}`);
         }
       }
 

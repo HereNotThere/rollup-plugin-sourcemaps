@@ -17,7 +17,7 @@
       "extends": [
         "plugin:@typescript-eslint/recommended",
         "plugin:@typescript-eslint/recommended-requiring-type-checking",
-        "prettier/@typescript-eslint"
+        "prettier"
       ],
       "parserOptions": {
         "project": "./tsconfig.json"
